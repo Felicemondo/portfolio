@@ -45,44 +45,44 @@ const mono = monogram(p.client);
 <style>
   .detail {
     display: grid;
-    gap: 20px;
+    gap: var(--space-5);
   }
   .cover {
     aspect-ratio: 16 / 9;
-    border-radius: var(--radius);
+    border-radius: var(--radius-md);
   }
   .cover span {
     font-size: clamp(3rem, 8vw, 5rem);
   }
   header {
     display: grid;
-    gap: 8px;
+    gap: var(--space-2);
   }
   .client {
-    font-size: 0.8125rem;
+    font-size: var(--text-xs);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--muted);
   }
   .title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: var(--text-title);
   }
   .title:focus {
     outline: none;
   }
   .summary {
-    font-size: 1.125rem;
+    font-size: var(--text-lg);
   }
   .meta {
     display: grid;
-    gap: 12px;
+    gap: var(--space-3);
     margin: 0;
-    padding: 16px;
+    padding: var(--space-4);
     border-radius: var(--radius-sm);
     background: var(--surface-2);
   }
   dt {
-    font-size: 0.8125rem;
+    font-size: var(--text-xs);
     color: var(--muted);
   }
   dd {
@@ -91,17 +91,17 @@ const mono = monogram(p.client);
   .tools {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: var(--space-2);
   }
   .tools .tag {
     background: var(--surface);
   }
   section {
     display: grid;
-    gap: 6px;
+    gap: var(--space-2);
   }
   .sh {
-    font-size: 1.125rem;
+    font-size: var(--text-lg);
   }
   section p {
     color: var(--ink);

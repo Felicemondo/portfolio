@@ -7,6 +7,7 @@
   --muted: #5c5b56;
   --line: #e0ddd5;
   --on-accent: #151513;
+  --success: #2fbf4a;
 
   --lime: #c6f24e;
   --violet: #b9a6ff;
@@ -15,8 +16,35 @@
   --sun: #ffd34d;
   --pink: #ffa3dc;
 
-  --radius: 18px;
+  /* Same names as the Figma variables (Layout collection) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --radius-xs: 10px;
   --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+
+  /* Same names as the Figma text styles */
+  --text-2xs: 0.75rem;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.75rem;
+  --text-title: clamp(1.75rem, 4vw, 2.5rem);
+  --text-display: clamp(2.25rem, 5vw, 3.5rem);
+
   --shadow: 0 1px 0 rgb(0 0 0 / 0.04), 0 24px 60px -24px rgb(30 25 10 / 0.28);
   --font: 'Space Grotesk Variable', system-ui, sans-serif;
   --display: 'Bricolage Grotesque Variable', 'Space Grotesk Variable', system-ui, sans-serif;
@@ -51,7 +79,7 @@ body {
 
 body {
   font-family: var(--font);
-  font-size: 16px;
+  font-size: var(--text-md);
   line-height: 1.55;
   color: var(--ink);
   background-color: var(--bg);
@@ -110,10 +138,10 @@ button {
   left: 12px;
   top: -60px;
   z-index: 50;
-  padding: 10px 14px;
+  padding: var(--space-3) var(--space-4);
   background: var(--ink);
   color: var(--surface);
-  border-radius: 10px;
+  border-radius: var(--radius-xs);
 }
 .skip:focus {
   top: 12px;
@@ -123,10 +151,10 @@ button {
 .tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.8125rem;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
   background: var(--surface-2);
   border: 1px solid var(--line);
   white-space: nowrap;
@@ -136,10 +164,10 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
   min-height: 44px;
-  padding: 0 18px;
-  border-radius: 999px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-full);
   border: 1px solid var(--line);
   background: var(--surface);
   text-decoration: none;

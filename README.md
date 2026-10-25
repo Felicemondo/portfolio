@@ -19,6 +19,21 @@ Ogni testo ha la versione `it` e `en`.
 
 **Nuovo progetto:** aggiungi un oggetto all'array `projects` in `profile.ts`. La pagina, la card e la risposta in chat si creano da sole.
 
+## Design system
+
+File Figma: https://www.figma.com/design/92GaXfL6zgpnhfdaffIk24
+
+Variabili, stili e componenti Figma usano gli stessi nomi del CSS in `src/styles/global.css`:
+
+| Figma | CSS |
+|-------|-----|
+| `color/surface`, `accent/lime` … | `var(--surface)`, `var(--lime)` … |
+| `space/4` | `var(--space-4)` |
+| `radius/md` | `var(--radius-md)` |
+| Text style `Body/sm`, `Heading/3xl`, `Display` | `var(--text-sm)`, `var(--text-3xl)`, `var(--text-display)` |
+
+Ogni componente Figma ha nella descrizione la classe CSS corrispondente.
+
 ## Sviluppo
 
 ```bash
