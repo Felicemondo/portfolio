@@ -1,0 +1,360 @@
+---
+// Every rich answer the chat can show, rendered at build time inside <template>s.
+// The client clones the one named by a reply's `block`.
+import type { Lang } from '../data/profile.ts';
+import { profile, experience, education, certifications, skills, projects, films } from '../data/profile.ts';
+import { ui } from '../lib/i18n.ts';
+import ProjectCard from './ProjectCard.astro';
+import ProjectDetail from './ProjectDetail.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = ui[lang];
+const cv = profile.cv || profile.links.linkedin;
+const skillAccent = { design: 'violet', quality: 'lime', film: 'coral', tools: 'sky' } as const;
+---
+
+<template id="b-about">
+  <div class="block about">
+    <p>{profile.bio[lang]}</p>
+    <div class="row">
+      <span class="tag"><Icon name="pin" size={14} />{profile.location[lang]}</span>
+      {profile.languages.map((l) => <span class="tag"><Icon name="globe" size={14} />{l.name[lang]} · {l.level[lang]}</span>)}
+      <span class="tag live"><i></i>{profile.available[lang]}</span>
+    </div>
+  </div>
+</template>
+
+<template id="b-now">
+  <div class="block now a-lime">
+    <p class="eyebrow">{experience[0].period[lang]} · {experience[0].place[lang]}</p>
+    <h3>{experience[0].company}</h3>
+    <p class="role">{experience[0].role[lang]}</p>
+    <p>{experience[0].text[lang]}</p>
+  </div>
+</template>
+
+<template id="b-timeline">
+  <ol class="block timeline">
+    {
+      experience.map((e) => (
+        <li class={`a-${e.accent}`}>
+          <span class="dot" />
+          <div>
+            <p class="eyebrow">{e.period[lang]} · {e.place[lang]}</p>
+            <h3>{e.company}</h3>
+            <p class="role">{e.role[lang]}</p>
+            <p>{e.text[lang]}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</template>
+
+<template id="b-projects">
+  <div class="block grid">
+    {projects.map((p) => <ProjectCard p={p} lang={lang} />)}
+  </div>
+</template>
+
+{
+  projects.map((p) => (
+    <template id={`b-project:${p.slug}`}>
+      <div class="block">
+        <ProjectCard p={p} lang={lang} wide />
+      </div>
+    </template>
+  ))
+}
+
+{
+  projects.map((p) => (
+    <template id={`d-${p.slug}`}>
+      <ProjectDetail p={p} lang={lang} />
+    </template>
+  ))
+}
+
+<template id="b-film">
+  <ul class="block films">
+    {
+      films.map((f, i) => (
+        <li class={`a-${['coral', 'sun', 'pink', 'violet'][i % 4]}`}>
+          <span class="icon">
+            <Icon name="film" size={18} />
+          </span>
+          <div>
+            <h3>{f.client}</h3>
+            <p>{f.what[lang]}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</template>
+
+<template id="b-skills">
+  <div class="block skills">
+    {
+      Object.entries(skills).map(([key, g]) => (
+        <div class={`group a-${skillAccent[key as keyof typeof skillAccent]}`}>
+          <h3>{g.label[lang]}</h3>
+          <div class="row">
+            {g.items.map((s) => (
+              <span class="tag">{s}</span>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</template>
+
+<template id="b-education">
+  <div class="block edu">
+    {
+      education.map((e) => (
+        <div class="item a-violet">
+          <span class="icon">
+            <Icon name="cap" size={18} />
+          </span>
+          <div>
+            <p class="eyebrow">
+              {e.period}
+              {e.note[lang] && ` · ${e.note[lang]}`}
+            </p>
+            <h3>{e.title[lang]}</h3>
+            <p>{e.school}</p>
+          </div>
+        </div>
+      ))
+    }
+    {
+      certifications.map((c) => (
+        <div class="item a-sun">
+          <span class="icon">
+            <Icon name="spark" size={18} />
+          </span>
+          <div>
+            <p class="eyebrow">
+              {c.issuer} · {c.date[lang]}
+            </p>
+            <h3>{c.name}</h3>
+          </div>
+        </div>
+      ))
+    }
+    <a class="more" href={profile.links.linkedin} target="_blank" rel="noopener">{t.moreCerts} <Icon name="external" size={14} /></a>
+  </div>
+</template>
+
+<template id="b-contact">
+  <div class="block contact a-sky">
+    <a class="mail" href={`mailto:${profile.email}`}>
+      <Icon name="mail" size={22} />
+      <span>{profile.email}</span>
+    </a>
+    <div class="row">
+      <button type="button" class="btn" data-copy={profile.email} data-done={t.copied}><Icon name="copy" size={16} />{t.copy}</button>
+      <a class="btn" href={cv} target="_blank" rel="noopener"><Icon name="download" size={16} />{t.cv}</a>
+      <a class="btn" href={profile.links.linkedin} target="_blank" rel="noopener">LinkedIn <Icon name="external" size={14} /></a>
+      <a class="btn" href={profile.links.dribbble} target="_blank" rel="noopener">Dribbble <Icon name="external" size={14} /></a>
+    </div>
+  </div>
+</template>
+
+<style>
+  .block {
+    margin-top: 12px;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .eyebrow {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .role {
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 1.0625rem;
+  }
+
+  .about {
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+  }
+  .live i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2fbf4a;
+    box-shadow: 0 0 0 3px rgb(47 191 74 / 0.25);
+  }
+
+  .now {
+    display: grid;
+    gap: 6px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .now h3 {
+    font-size: 1.75rem;
+  }
+  .now .eyebrow {
+    color: inherit;
+    opacity: 0.75;
+  }
+
+  .timeline {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+  .timeline li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    padding-bottom: 20px;
+  }
+  .timeline li:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 22px;
+    bottom: 0;
+    width: 2px;
+    background: var(--line);
+  }
+  .timeline .dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: var(--accent);
+    margin-top: 2px;
+  }
+  .timeline li > div {
+    display: grid;
+    gap: 2px;
+  }
+  .timeline li p:last-child {
+    margin-top: 4px;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
+  }
+
+  .films {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .films li,
+  .edu .item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .films p {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .skills {
+    display: grid;
+    gap: 16px;
+  }
+  .group h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .group h3::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: var(--accent);
+  }
+
+  .edu {
+    display: grid;
+    gap: 10px;
+  }
+  .edu p:last-child {
+    color: var(--muted);
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    color: var(--muted);
+    min-height: 44px;
+  }
+
+  .contact {
+    display: grid;
+    gap: 14px;
+    padding: 20px;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .mail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--display);
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
+    font-weight: 700;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .mail:hover span {
+    text-decoration: underline;
+  }
+  .contact .btn {
+    background: rgb(255 255 255 / 0.7);
+    border-color: transparent;
+    color: var(--on-accent);
+  }
+  .contact .btn:hover {
+    background: #fff;
+  }
+</style>

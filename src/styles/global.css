@@ -1,0 +1,196 @@
+:root {
+  --bg: #e9e7e1;
+  --dot: #cfccc3;
+  --surface: #fbfaf7;
+  --surface-2: #f2f0eb;
+  --ink: #151513;
+  --muted: #5c5b56;
+  --line: #e0ddd5;
+  --on-accent: #151513;
+
+  --lime: #c6f24e;
+  --violet: #b9a6ff;
+  --coral: #ff8a6b;
+  --sky: #7cd0ff;
+  --sun: #ffd34d;
+  --pink: #ffa3dc;
+
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.04), 0 24px 60px -24px rgb(30 25 10 / 0.28);
+  --font: 'Space Grotesk Variable', system-ui, sans-serif;
+  --display: 'Bricolage Grotesque Variable', 'Space Grotesk Variable', system-ui, sans-serif;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f0e;
+    --dot: #2a2a27;
+    --surface: #1a1a18;
+    --surface-2: #232320;
+    --ink: #f3f2ed;
+    --muted: #a9a79f;
+    --line: #2f2e2a;
+    --shadow: 0 24px 60px -24px rgb(0 0 0 / 0.7);
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 50;
+  padding: 10px 14px;
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: 10px;
+}
+.skip:focus {
+  top: 12px;
+}
+
+/* Shared pieces used by chat blocks and project pages */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  text-decoration: none;
+  font-weight: 500;
+  transition: transform 0.15s var(--ease), background-color 0.15s var(--ease);
+}
+.btn:hover {
+  background: var(--surface-2);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--surface);
+  border-color: var(--ink);
+}
+.btn-primary:hover {
+  background: var(--ink);
+  opacity: 0.88;
+}
+
+.a-lime { --accent: var(--lime); }
+.a-violet { --accent: var(--violet); }
+.a-coral { --accent: var(--coral); }
+.a-sky { --accent: var(--sky); }
+.a-sun { --accent: var(--sun); }
+.a-pink { --accent: var(--pink); }
+
+.cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background-color: var(--accent);
+  background-image: radial-gradient(rgb(0 0 0 / 0.12) 1px, transparent 1px);
+  background-size: 14px 14px;
+  color: var(--on-accent);
+  overflow: hidden;
+}
+.cover span {
+  font-family: var(--display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import ChatApp from '../components/ChatApp.astro';
+import { ui } from '../lib/i18n.ts';
+---
+
+<Base lang="it" title={ui.it.title} description={ui.it.description} path="/" altPath="/en/">
+  <ChatApp lang="it" />
+</Base>

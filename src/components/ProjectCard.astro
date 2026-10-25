@@ -1,0 +1,96 @@
+---
+import type { Lang, Project } from '../data/profile.ts';
+import { monogram } from '../data/profile.ts';
+import { href, projectPath } from '../lib/i18n.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  p: Project;
+  lang: Lang;
+  wide?: boolean;
+}
+const { p, lang, wide = false } = Astro.props;
+const mono = monogram(p.client);
+const kind = p.kind === 'product' ? 'Product design' : 'Web design';
+---
+
+<a class:list={['card', `a-${p.accent}`, { wide }]} href={href(projectPath(lang, p.slug))} data-project={p.slug}>
+  <div class="cover"><span>{mono}</span></div>
+  <div class="body">
+    <span class="kind">{kind}</span>
+    <h3>{p.client}</h3>
+    <p>{p.title[lang]}</p>
+  </div>
+  <span class="go"><Icon name="arrow" size={16} /></span>
+</a>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -16px rgb(0 0 0 / 0.35);
+  }
+  .cover {
+    aspect-ratio: 16 / 9;
+  }
+  .cover span {
+    font-size: 2.5rem;
+  }
+  .body {
+    padding: 12px 14px 14px;
+    display: grid;
+    gap: 2px;
+  }
+  .kind {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  h3 {
+    font-size: 1.0625rem;
+  }
+  .body p {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .go {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--ink);
+    transition: transform 0.2s var(--ease);
+  }
+  .card:hover .go {
+    transform: rotate(-45deg);
+  }
+  .wide {
+    flex-direction: row;
+    max-width: 520px;
+  }
+  .wide .cover {
+    aspect-ratio: 1;
+    width: 120px;
+    flex: none;
+  }
+  .wide .body {
+    align-content: center;
+    padding-right: 48px;
+  }
+</style>

@@ -1,0 +1,110 @@
+---
+import type { Lang, Project } from '../data/profile.ts';
+import { monogram } from '../data/profile.ts';
+import { ui } from '../lib/i18n.ts';
+
+interface Props {
+  p: Project;
+  lang: Lang;
+  headingLevel?: 'h1' | 'h2';
+}
+const { p, lang, headingLevel = 'h2' } = Astro.props;
+const t = ui[lang];
+const H = headingLevel;
+const S = headingLevel === 'h1' ? 'h2' : 'h3';
+const mono = monogram(p.client);
+---
+
+<article class:list={['detail', `a-${p.accent}`]}>
+  <div class="cover"><span>{mono}</span></div>
+  <header>
+    <p class="client">{p.client}</p>
+    <H class="title" tabindex="-1">{p.title[lang]}</H>
+    <p class="summary">{p.summary[lang]}</p>
+  </header>
+  <dl class="meta">
+    <div>
+      <dt>{t.role}</dt>
+      <dd>{p.role[lang]}</dd>
+    </div>
+    <div>
+      <dt>{t.tools}</dt>
+      <dd class="tools">{p.tools.map((tool) => <span class="tag">{tool}</span>)}</dd>
+    </div>
+  </dl>
+  {
+    p.sections.map((s) => (
+      <section>
+        <S class="sh">{s.h[lang]}</S>
+        <p>{s.p[lang]}</p>
+      </section>
+    ))
+  }
+</article>
+
+<style>
+  .detail {
+    display: grid;
+    gap: 20px;
+  }
+  .cover {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+  }
+  .cover span {
+    font-size: clamp(3rem, 8vw, 5rem);
+  }
+  header {
+    display: grid;
+    gap: 8px;
+  }
+  .client {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+  .title:focus {
+    outline: none;
+  }
+  .summary {
+    font-size: 1.125rem;
+  }
+  .meta {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+  }
+  dt {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  dd {
+    margin: 2px 0 0;
+  }
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tools .tag {
+    background: var(--surface);
+  }
+  section {
+    display: grid;
+    gap: 6px;
+  }
+  .sh {
+    font-size: 1.125rem;
+  }
+  section p {
+    color: var(--ink);
+    max-width: 62ch;
+  }
+</style>

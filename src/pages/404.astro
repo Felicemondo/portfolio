@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../lib/i18n.ts';
+---
+
+<Base lang="it" title="Pagina non trovata · Felice Mondo" description="Questa pagina non esiste." path="/404/" altPath="/404/">
+  <main class="nf">
+    <p class="code">404</p>
+    <h1>Questa pagina non esiste.</h1>
+    <p>Chiedi alla chat, lei sa dove trovarmi.</p>
+    <a class="btn btn-primary" href={href('/')}>Torna alla chat</a>
+  </main>
+</Base>
+
+<style>
+  .nf {
+    min-height: 100dvh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 14px;
+    padding: 16px;
+    text-align: center;
+  }
+  .code {
+    font-family: var(--display);
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    padding: 12px 24px;
+    border-radius: 28px;
+    background: var(--lime);
+    color: var(--on-accent);
+  }
+</style>
